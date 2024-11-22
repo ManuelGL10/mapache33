@@ -157,52 +157,48 @@ const handleAddPet = async () => {
       try {
         const registration = await navigator.serviceWorker.ready;
   
-        // Verificar si ya existe una suscripción
         const existingSubscription = await registration.pushManager.getSubscription();
         if (existingSubscription) {
           console.log("El usuario ya está suscrito");
           return;
         }
   
-        // Solicitar permiso para notificaciones
         const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-          const newSubscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: "BMFs1abMQdigAfOcZDc36bRKgAeZfg_VYc3_h-Kho0n0ouZBhi_Kr4-8j_mWd5WyVZ_zyrZtxT2p6GI_RMHhYfA"
-          });
-  
-          // Formatear los datos de suscripción junto con userId
-          const subscriptionData = {
-            ...newSubscription.toJSON(),
-            userId 
-          };
-  
-          // Enviar la suscripción a la API
-          const response = await fetch('https://mapache-server-bio4.onrender.com/suscription', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(subscriptionData)
-          });
-  
-          if (!response.ok) {
-            throw new Error('Error en la solicitud: ' + response.statusText);
-          }
-  
-          const data = await response.json();
-          console.log('Suscripción guardada en la BD', data);
-        } else {
-          console.log("Permiso para notificaciones denegado");
+        if (permission !== 'granted') {
+          alert("Permiso para notificaciones denegado.");
+          return;
         }
+  
+        const newSubscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: "BMFs1abMQdigAfOcZDc36bRKgAeZfg_VYc3_h-Kho0n0ouZBhi_Kr4-8j_mWd5WyVZ_zyrZtxT2p6GI_RMHhYfA"
+        });
+  
+        const subscriptionData = {
+          ...newSubscription.toJSON(),
+          userId,
+        };
+  
+        const response = await fetch('https://mapache-server-bio4.onrender.com/suscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(subscriptionData),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Error al guardar la suscripción');
+        }
+  
+        localStorage.setItem('isSubscribed', 'true');
+        console.log('Suscripción completada con éxito.');
       } catch (error) {
-        console.error('Error en el proceso de suscripción', error);
+        console.error('Error en la suscripción:', error);
       }
     } else {
-      console.log("El navegador no soporta Service Worker o Push Notifications");
+      console.log("El navegador no soporta Service Workers o Push Notifications.");
     }
   }
+  
 
   return (
     <div className="container mx-auto px-6 py-8">
