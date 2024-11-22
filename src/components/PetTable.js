@@ -169,7 +169,7 @@ const handleAddPet = async () => {
         if (permission === 'granted') {
           const newSubscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: "BOUKMtuCea0YgGZ3nGNekNnNKw9WmHnOx9hKxY4umoh2V5_DcWdDzyfFXD3GBFaeckEkWFKi60clrBA7zYpJCWE"
+            applicationServerKey: "BMFs1abMQdigAfOcZDc36bRKgAeZfg_VYc3_h-Kho0n0ouZBhi_Kr4-8j_mWd5WyVZ_zyrZtxT2p6GI_RMHhYfA"
           });
   
           // Formatear los datos de suscripción junto con userId
