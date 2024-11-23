@@ -19,7 +19,7 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
       caches.open(APP_SHELL_CACHE).then((cache) => {
         console.log('Caching app shell');
-        return cache.addAll(APP_SHELL);
+    
       })
     );
 });
