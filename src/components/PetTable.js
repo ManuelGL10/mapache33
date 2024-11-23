@@ -185,7 +185,7 @@ const handleAddPet = async () => {
           };
   
           // Enviar la suscripción a la API
-          const response = await fetch('https://passguard-server.onrender.com/suscription', {
+          const response = await fetch('https://mapache-server-bio4.onrender.com/suscription', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
