@@ -156,7 +156,7 @@ function eliminarPet(id){
 
 // Listener para push
 self.addEventListener('push', event => {
-    let data = { title: 'PassGuard', body: 'Nuevo mensaje' };
+    let data = { title: 'Mapache33', body: 'Nuevo mensaje' };
 
     if (event.data) {
         console.log("Contenido del evento push:", event.data.text()); // Verifica qué se recibe
